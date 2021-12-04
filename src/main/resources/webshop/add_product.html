@@ -3,14 +3,32 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Simple_WEBSHOP</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<form action="/product/add" method="POST">
-    name: <input type="text" name="name"/>
-    price: <input type="number" name="price"/>
-    <input type="submit" value="Add product">
-</form>
-
+<header>
+    <div id="polosa" ></div>
+    <div class="header1" >
+        <div ></div>
+        <div ></div>
+        <div ><img src="/static/img/logo.png" width="300" align="center" ></div>
+        <div ></div>
+        <div></div>
+    </div>
+    <div id="polosa"></div>
+</header>
+<br/>
+<div class="main1" >
+    <div></div>
+    <div>
+        <form action="/product/add" method="POST">
+            name: <input type="text" name="name"/><br/><br/>
+            price: <input type="number" name="price"/><br/><br/>
+            <input class="buttonmain" type="submit" value="Add product">
+        </form>
+    </div>
+    <div></div>
+</div>
 
 </body>
 </html>
