@@ -1,13 +1,13 @@
-package com.luxoft.oleksandr_shevchenko.webshop.templater;
+package com.luxoft.oleksandr_shevchenko.webshop.web.templater;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Map;
 
 
@@ -16,6 +16,10 @@ public class PageGenerator {
 
     private static PageGenerator pageGenerator;
     private final Configuration cfg;
+
+    private PageGenerator() {
+        cfg = new Configuration();
+    }
 
     public static PageGenerator instance() {
         if (pageGenerator == null)
@@ -34,7 +38,9 @@ public class PageGenerator {
         return stream.toString();
     }
 
-    private PageGenerator() {
-        cfg = new Configuration();
+    public String getPage(String filename) {
+        return getPage(filename, Collections.emptyMap());
     }
+
+
 }

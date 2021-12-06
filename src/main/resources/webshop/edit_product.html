@@ -14,20 +14,20 @@
 
 <div class="container">
     </br>
-    <h1 align="center">Add Product</h1>
+    <h1 align="center">Edit Product</h1>
     </br>
-    <form action="/products/add" method="POST">
-    <div class="row justify-content-center">
-        <div class="col-md-auto col-lg-2 ">
-            <input type="text" name="name" class="form-control" placeholder="Enter product name:" aria-label="name:">
+    <form action="/products/edit" method="POST">
+        <div class="row justify-content-center">
+            <div class="col-md-auto col-lg-2 ">
+                <input type="text" name="name" class="form-control" placeholder="Enter NEW product name:" aria-label="name:">
+            </div>
+            <div class="col-md-auto col-lg-2">
+                <input type="number" name="price" class="form-control" placeholder="Enter NEW product price:" aria-label="price:">
+            </div>
         </div>
-        <div class="col-md-auto col-lg-2">
-            <input type="number" name="price" class="form-control" placeholder="Enter product price:" aria-label="price:">
-        </div>
-    </div>
         <div class="container" align="center">
-        </br></br>
-            <button class="btn btn-outline-dark" type="submit" class="btn btn-primary">Add product</button>
+            </br></br>
+            <button class="btn btn-outline-dark" type="submit" class="btn btn-primary">Edit product</button>
         </div>
     </form>
 
