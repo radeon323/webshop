@@ -18,7 +18,6 @@ public class ProductRowMapper {
                 .price(price)
                 .creationDate(creationDate)
                 .build();
-
     return product;
     }
 }

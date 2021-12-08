@@ -32,36 +32,28 @@ public class AddProductServlet extends HttpServlet {
         PageGenerator instance = PageGenerator.instance();
         try {
             String name = req.getParameter("name");
-            double price = Double.parseDouble(req.getParameter("price"));
-
-            if(name != null && name.length() > 0 && req.getParameter("price") != null && price > 0) {
+            if(name != null && name.length() > 0 && req.getParameter("price") != null) {
                 try {
                     Product product = getProductFromRequest(req);
                     productService.add(product);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                System.out.println(" product: " + name + " price " + price);
 
                 String msgSuccess = "Product <i>" + name + "</i> was successfully added!";
                 Map<String, Object> parameters = Map.of("msgSuccess", msgSuccess);
                 String page = instance.getPage("add_product.html", parameters);
                 resp.getWriter().write(page);
 
-            } else if (price <= 0) {
-                String errorMsgPos = "Price value must be positive";
-                Map<String, Object> parameters = Map.of("errorMsgPos", errorMsgPos);
-                String pageError = instance.getPage("add_product.html", parameters);
-                resp.getWriter().write(pageError);
             } else {
-                String errorMsgFill = "Please fill up all fields!";
-                Map<String, Object> parameters = Map.of("errorMsgFill", errorMsgFill);
+                String errorMsg = "Please fill up all fields!";
+                Map<String, Object> parameters = Map.of("errorMsg", errorMsg);
                 String pageError = instance.getPage("add_product.html", parameters);
                 resp.getWriter().write(pageError);
             }
         } catch (Exception e) {
-            String errorMsgFill = "Please fill up all fields!";
-            Map<String, Object> parameters = Map.of("errorMsgFill", errorMsgFill);
+            String errorMsg = "Please fill up all fields!";
+            Map<String, Object> parameters = Map.of("errorMsg", errorMsg);
             String pageError = instance.getPage("add_product.html", parameters);
             resp.getWriter().write(pageError);
         }

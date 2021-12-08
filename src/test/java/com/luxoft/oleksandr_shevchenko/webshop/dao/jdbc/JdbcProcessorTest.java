@@ -2,14 +2,10 @@ package com.luxoft.oleksandr_shevchenko.webshop.dao.jdbc;
 
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import org.junit.jupiter.api.Test;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
 
 class JdbcProcessorTest {
 
@@ -34,4 +30,6 @@ class JdbcProcessorTest {
         assertEquals(123, product.getPrice());
         assertEquals("www", product.getName());
     }
+
+
 }

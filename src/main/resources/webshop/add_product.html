@@ -19,10 +19,10 @@
     <form action="/products/add" method="POST">
     <div class="row justify-content-center">
         <div class="col-md-auto col-lg-2 ">
-            <input type="text" name="name" class="form-control" placeholder="Enter product name:" aria-label="name:">
+            <input required type="text" name="name" class="form-control" placeholder="Enter product name:" aria-label="name:">
         </div>
         <div class="col-md-auto col-lg-2">
-            <input type="number" name="price" class="form-control" placeholder="Enter product price:" aria-label="price:">
+            <input required type="number" step="0.01" min="0.01" name="price" class="form-control" placeholder="Enter product price:" aria-label="price:">
         </div>
     </div>
         <div class="container" align="center">
@@ -34,17 +34,15 @@
             <div class="container" align="center">
                 </br></br>
                 <p align="center"><strong>${msgSuccess}</strong></p>
+                </br></br>
+                <p align='center'><a href='/'>to product list -></a></p>
             </div>
-        <#elseif errorMsgFill??>
+        <#elseif errorMsg??>
             <div class="container" align="center">
                 </br></br>
-                <p align="center"><strong>${errorMsgFill}</strong></p>
+                <p align="center"><strong>${errorMsg}</strong></p>
             </div>
-        <#elseif errorMsgPos??>
-            <div class="container" align="center">
-                </br></br>
-                <p align="center"><strong>${errorMsgPos}</strong></p>
-            </div>
+        <#else>
         </#if>
 
     </form>

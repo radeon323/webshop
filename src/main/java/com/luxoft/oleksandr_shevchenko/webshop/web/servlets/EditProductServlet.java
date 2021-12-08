@@ -24,6 +24,7 @@ public class EditProductServlet extends HttpServlet {
         Product product = productService.findById(id);
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("product", product);
+
         PageGenerator instance = PageGenerator.instance();
         String page = instance.getPage("edit_product.html", parameters);
         resp.getWriter().write(page);
@@ -38,37 +39,28 @@ public class EditProductServlet extends HttpServlet {
             int id = Integer.parseInt(req.getParameter("id"));
             Product product = getProductFromRequest(req);
             product.setId(id);
-
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("product", product);
 
-            String page = instance.getPage("edit_product.html", parameters);
 
             String name = req.getParameter("name");
-            double price = Double.parseDouble(req.getParameter("price"));
-
-            if(name != null && name.length() > 0 && req.getParameter("price") != null && price > 0) {
-
+            if(name != null && name.length() > 0 && req.getParameter("price") != null) {
                 productService.edit(product);
 
-                String msgSuccess = "</br></br><p align='center'><strong>Product <i>" + name + "</i> was successfully changed!</strong><p>";
+                String msgSuccess = "Product <i>" + name + "</i> was successfully changed!";
+                parameters.put("msgSuccess", msgSuccess);
+                String page = instance.getPage("edit_product.html", parameters);
                 resp.getWriter().write(page);
-                resp.getWriter().println(msgSuccess);
 
-            } else if (price <= 0) {
-                String errorMsgPos = "</br></br><p align='center'><strong>Price value must be positive</strong><p>";
-                resp.getWriter().write(page);
-                resp.getWriter().println(errorMsgPos);
             } else {
-                String errorMsgFill = "</br></br><p align='center'><strong>Please fill up all fields</strong><p>";
+                String errorMsg = "Please fill up all fields";
+                parameters.put("errorMsg", errorMsg);
+                String page = instance.getPage("edit_product.html", parameters);
                 resp.getWriter().write(page);
-                resp.getWriter().println(errorMsgFill);
             }
         } catch (Exception e) {
-//            String page = instance.getPage("edit_product.html");
-            String errorMsgPos = "Please fill up all fields";
-//            resp.getWriter().write(page);
-            resp.getWriter().println(errorMsgPos);
+            String errorMsg = "Please fill up all fields";
+            resp.getWriter().println(errorMsg);
         }
 
     }

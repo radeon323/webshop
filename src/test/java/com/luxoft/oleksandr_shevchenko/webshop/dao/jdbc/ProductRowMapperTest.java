@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,6 @@ class ProductRowMapperTest {
         when(resultSetMock.getString("name")).thenReturn("phone");
         when(resultSetMock.getDouble("price")).thenReturn(100.0);
         when(resultSetMock.getTimestamp("creation_date")).thenReturn(timestamp);
-
 
         Product actual = productRowMapper.mapRow(resultSetMock);
 

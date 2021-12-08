@@ -18,12 +18,15 @@ public class Starter {
 
         AddProductServlet addProductServlet = new AddProductServlet(productService);
         EditProductServlet editProductServlet = new EditProductServlet(productService);
+
         ShowAllProductsServlet showAllProductsServlet = new ShowAllProductsServlet(productService);
 
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(addProductServlet), "/products/add");
         context.addServlet(new ServletHolder(editProductServlet), "/products/edit");
+
+        context.addServlet(new ServletHolder(showAllProductsServlet), "/products");
         context.addServlet(new ServletHolder(showAllProductsServlet), "/*");
 
         Server server = new Server(3000);

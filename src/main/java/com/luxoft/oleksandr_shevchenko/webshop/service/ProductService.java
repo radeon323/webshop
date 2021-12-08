@@ -4,7 +4,6 @@ import com.luxoft.oleksandr_shevchenko.webshop.dao.ProductDao;
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProductService {
@@ -21,8 +20,8 @@ public class ProductService {
     }
 
     public void add(Product product) throws SQLException {
-        LocalDateTime now = LocalDateTime.now();
-        product.setCreationDate(Timestamp.valueOf(now));
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        product.setCreationDate(timestamp);
         productDao.add(product);
         System.out.println("Add product " + product.getName());
     }
