@@ -13,4 +13,6 @@ public interface ProductDao {
     void edit(Product product);
 
     void add(Product product) throws SQLException;
+
+    Product findById(int id);
 }

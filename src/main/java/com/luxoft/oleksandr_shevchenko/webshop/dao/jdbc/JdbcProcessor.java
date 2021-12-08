@@ -15,7 +15,7 @@ public class JdbcProcessor implements ProductDao {
     private static final String tableColumnsWhenCreate = "(id SERIAL not NULL, name VARCHAR(50), price VARCHAR(50), creation_date VARCHAR(50))";
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
     private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
-    private static final String UPDATE_BY_ID = "UPDATE products SET name = ?, price = ?, date = ? WHERE id = ?";
+    private static final String UPDATE_BY_ID = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
 
     protected static Connection connect() throws SQLException {
@@ -47,7 +47,7 @@ public class JdbcProcessor implements ProductDao {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + tableName + tableColumns + " VALUES (?, ?, ?);");
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(product.getCreationDate()));
+            preparedStatement.setTimestamp(3, product.getCreationDate());
             preparedStatement.executeUpdate();
         }
     }
@@ -70,12 +70,38 @@ public class JdbcProcessor implements ProductDao {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_ID)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(product.getCreationDate()));
-            preparedStatement.setInt(4, product.getId());
+            preparedStatement.setInt(3, product.getId());
+
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Product findById(int id) {
+        try (Connection connection = connect();) {
+            String sql = "SELECT * FROM products WHERE id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int pId = resultSet.getInt(1);
+                    String name = resultSet.getString(2);
+                    double price = resultSet.getInt(3);
+                    Timestamp creationDate = resultSet.getTimestamp(4);
+                    Product product = Product.builder().
+                            id(pId)
+                            .name(name)
+                            .price(price)
+                            .creationDate(creationDate)
+                            .build();
+                    return product;
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
     }
 
 

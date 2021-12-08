@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,19 +17,39 @@
     </br>
     <h1 align="center">Edit Product</h1>
     </br>
+
     <form action="/products/edit" method="POST">
+
+            <input type="hidden" value="${product.id}" name="id" />
+
         <div class="row justify-content-center">
-            <div class="col-md-auto col-lg-2 ">
+            <div class="col-md-auto col-lg-2 " >
+
+                <span class="align-middle">Product name:  ${product.name}</span>
+
+            </div>
+            <div class="col-md-auto col-lg-3">
                 <input type="text" name="name" class="form-control" placeholder="Enter NEW product name:" aria-label="name:">
             </div>
-            <div class="col-md-auto col-lg-2">
+        </div>
+        </br>    </br>
+        <div class="row justify-content-center">
+            <div class="col-md-auto col-lg-2 ">
+
+                <span class="align-middle">Product price:  ${product.price}</span>
+
+            </div>
+            <div class="col-md-auto col-lg-3">
                 <input type="number" name="price" class="form-control" placeholder="Enter NEW product price:" aria-label="price:">
             </div>
         </div>
         <div class="container" align="center">
             </br></br>
             <button class="btn btn-outline-dark" type="submit" class="btn btn-primary">Edit product</button>
+
         </div>
+
+
     </form>
 
 </div>
@@ -45,3 +66,5 @@
 -->
 </body>
 </html>
+
+

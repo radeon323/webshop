@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 public class AddProductServlet extends HttpServlet {
@@ -28,7 +30,6 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PageGenerator instance = PageGenerator.instance();
-        String page = instance.getPage("add_product.html");
         try {
             String name = req.getParameter("name");
             double price = Double.parseDouble(req.getParameter("price"));
@@ -42,18 +43,27 @@ public class AddProductServlet extends HttpServlet {
                 }
                 System.out.println(" product: " + name + " price " + price);
 
+                String msgSuccess = "Product <i>" + name + "</i> was successfully added!";
+                Map<String, Object> parameters = Map.of("msgSuccess", msgSuccess);
+                String page = instance.getPage("add_product.html", parameters);
                 resp.getWriter().write(page);
-                resp.getWriter().write("<p>Product " + name + " was successfully added</p>");
+
             } else if (price <= 0) {
-                resp.getWriter().write(page);
-                resp.getWriter().write("<p>Price value must be positive</p>");
+                String errorMsgPos = "Price value must be positive";
+                Map<String, Object> parameters = Map.of("errorMsgPos", errorMsgPos);
+                String pageError = instance.getPage("add_product.html", parameters);
+                resp.getWriter().write(pageError);
             } else {
-                resp.getWriter().write(page);
-                resp.getWriter().write("<p>Please fill up all fields!</p>");
+                String errorMsgFill = "Please fill up all fields!";
+                Map<String, Object> parameters = Map.of("errorMsgFill", errorMsgFill);
+                String pageError = instance.getPage("add_product.html", parameters);
+                resp.getWriter().write(pageError);
             }
-        } catch (NumberFormatException e) {
-            resp.getWriter().write(page);
-            resp.getWriter().write("<p>Please fill up all fields!</p>");
+        } catch (Exception e) {
+            String errorMsgFill = "Please fill up all fields!";
+            Map<String, Object> parameters = Map.of("errorMsgFill", errorMsgFill);
+            String pageError = instance.getPage("add_product.html", parameters);
+            resp.getWriter().write(pageError);
         }
     }
 
@@ -61,7 +71,7 @@ public class AddProductServlet extends HttpServlet {
         return Product.builder()
                 .name(req.getParameter("name"))
                 .price(Double.parseDouble(req.getParameter("price")))
-                .creationDate(LocalDateTime.now())
+                .creationDate(Timestamp.valueOf(LocalDateTime.now().withNano(0).withSecond(0)))
                 .build();
     }
 

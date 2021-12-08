@@ -29,6 +29,24 @@
         </br></br>
             <button class="btn btn-outline-dark" type="submit" class="btn btn-primary">Add product</button>
         </div>
+
+        <#if msgSuccess??>
+            <div class="container" align="center">
+                </br></br>
+                <p align="center"><strong>${msgSuccess}</strong></p>
+            </div>
+        <#elseif errorMsgFill??>
+            <div class="container" align="center">
+                </br></br>
+                <p align="center"><strong>${errorMsgFill}</strong></p>
+            </div>
+        <#elseif errorMsgPos??>
+            <div class="container" align="center">
+                </br></br>
+                <p align="center"><strong>${errorMsgPos}</strong></p>
+            </div>
+        </#if>
+
     </form>
 
 </div>
