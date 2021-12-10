@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-class JdbcProcessorTest {
+class JdbcProductDaoTest {
 
     @Test
     public void testFindAllReturnCorrectData() {
-        JdbcProcessor jdbcProcessor = new JdbcProcessor();
-        List<Product> products = jdbcProcessor.findAll();
+        JdbcProductDao jdbcProductDao = new JdbcProductDao();
+        List<Product> products = jdbcProductDao.findAll();
         assertFalse(products.isEmpty());
         for (Product product : products) {
             assertNotEquals(0, product.getId());
@@ -25,8 +25,8 @@ class JdbcProcessorTest {
 
     @Test
     public void testFindById() {
-        JdbcProcessor jdbcProcessor = new JdbcProcessor();
-        Product product = jdbcProcessor.findById(26);
+        JdbcProductDao jdbcProductDao = new JdbcProductDao();
+        Product product = jdbcProductDao.prFindById(26);
         assertEquals(123, product.getPrice());
         assertEquals("www", product.getName());
     }

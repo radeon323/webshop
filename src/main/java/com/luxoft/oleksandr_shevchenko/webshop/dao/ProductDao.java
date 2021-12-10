@@ -14,5 +14,5 @@ public interface ProductDao {
 
     void add(Product product) throws SQLException;
 
-    Product findById(int id);
+    Product prFindById(int id);
 }

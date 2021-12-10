@@ -1,111 +1,26 @@
 package com.luxoft.oleksandr_shevchenko.webshop.dao.jdbc;
 
-import com.luxoft.oleksandr_shevchenko.webshop.dao.ProductDao;
-import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class JdbcProcessor implements ProductDao {
+import com.luxoft.oleksandr_shevchenko.webshop.entity.User;
+
+import org.apache.commons.codec.binary.Hex;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
+
+public class JdbcProcessor {
     static String jdbcURL = "jdbc:postgresql://localhost:5432/postgres";
     static String jdbcUser = "postgres";
     static String jdbcPass = "postgres";
-    static String tableName = "products";
+    static String tableName = "users";
 
-    private static final String CREATE_TABLE = "CREATE TABLE products (id SERIAL not NULL, name VARCHAR(50), price VARCHAR(50), creation_date VARCHAR(50))";
-    private static final String ADD = "INSERT INTO products (name, price, creation_date) VALUES (?, ?, ?);";
-    private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
-    private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
-    private static final String UPDATE_BY_ID = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
-    private static final String FIND_BY_ID = "SELECT * FROM products WHERE id=?";
-
-    private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
+//    private static final String CREATE_TABLE = "CREATE TABLE products (id SERIAL not NULL, name VARCHAR(50), price VARCHAR(50), creation_date VARCHAR(50))";
+    private static final String CREATE_TABLE = "CREATE TABLE users (id SERIAL not NULL, email VARCHAR(50), password VARCHAR(50), gender VARCHAR(50), firstName VARCHAR(50), lastName VARCHAR(50), about TEXT, age INT NOT NULL DEFAULT 0)";
+    private static final String ADD = "INSERT INTO users (email, password, gender, firstName, lastName, about, age) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     protected static Connection connect() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUser, jdbcPass);
     }
-
-    @Override
-    public List<Product> findAll() {
-        try (Connection connection = connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
-             ResultSet resultSet = preparedStatement.executeQuery();) {
-
-            List<Product> products = new ArrayList<>();
-            while(resultSet.next()) {
-                Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
-                products.add(product);
-            }
-            return products;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    @Override
-    public void add(Product product) throws SQLException {
-        try (Connection connection = connect();) {
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD);
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setTimestamp(3, product.getCreationDate());
-            preparedStatement.executeUpdate();
-        }
-    }
-
-    @Override
-    public void remove(int id) {
-        try (Connection connection = connect();
-            PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
-            statement.setInt(1, id);
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void edit(Product product) {
-        try (Connection connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_ID)) {
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setInt(3, product.getId());
-
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Product findById(int id) {
-        try (Connection connection = connect();) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
-                preparedStatement.setInt(1, id);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    int pId = resultSet.getInt(1);
-                    String name = resultSet.getString(2);
-                    double price = resultSet.getDouble(3);
-                    Timestamp creationDate = resultSet.getTimestamp(4);
-                    Product product = Product.builder().
-                            id(pId)
-                            .name(name)
-                            .price(price)
-                            .creationDate(creationDate)
-                            .build();
-                    return product;
-                }
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return null;
-    }
-
 
     public static void clearTable(String tableName) throws SQLException {
         try (Connection connection = connect();) {
@@ -123,12 +38,42 @@ public class JdbcProcessor implements ProductDao {
         }
     }
 
-    public static void createTable(String tableName, String tableColumnsWhenCreate) throws SQLException {
+    public static void createTable(String tableName) throws SQLException {
         try (Connection connection = connect();) {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TABLE);
             preparedStatement.execute();
             System.out.println("Table " + tableName + " was successfully created...");
         }
     }
+
+    public void add(User user) throws SQLException {
+        try (Connection connection = connect();) {
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD);
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getGender());
+            preparedStatement.setString(4, user.getFirstName());
+            preparedStatement.setString(5, user.getLastName());
+            preparedStatement.setString(6, user.getAbout());
+            preparedStatement.setInt(7, user.getAge());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+
+//    public static String md5(String text) throws NoSuchAlgorithmException {
+//        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+//        String sole = "j3qq4m3hk8";
+//        String txt = text + sole;
+//        byte[] bytes = messageDigest.digest(txt.getBytes());
+//        return Hex.encodeHexString(bytes);
+//    }
+
+    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
+        //createTable(tableName);
+        //System.out.println(md5("12345"));
+
+    }
+
 
 }

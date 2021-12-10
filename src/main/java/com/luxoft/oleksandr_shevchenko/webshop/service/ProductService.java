@@ -35,7 +35,7 @@ public class ProductService {
         productDao.edit(product);
     }
 
-    public Product findById(int id) {
-        return productDao.findById(id);
+    public Product prFindById(int id) {
+        return productDao.prFindById(id);
     }
 }

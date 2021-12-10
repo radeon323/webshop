@@ -1,8 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const close = document.querySelector('#close');
+      const btn = document.querySelector('#btn');
+      const modal = new bootstrap.Modal(document.querySelector('#modal'));
+      btn.addEventListener('click', function() {
+        modal.show();
+      });
+      close.addEventListener('click', function() {
+        modal.hide();
+      });
+    });
+    </script>
+
+
     <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
@@ -34,9 +50,9 @@
                         <td>${product.price?string["0.00"]}</td>
                         <td>${product.creationDate?datetime?string("yyyy/MM/dd HH:mm")}</td>
                         <td>
-                            <form method="post" action='/products/delete' style="display:inline;">
+                            <form method="post" action='/products/delete' style="display:inline;" >
                                 <input type="hidden" name="id" value="${product.id}">
-                                <input type="submit" value="Delete" class="btn btn-outline-dark">
+                                <input type="submit" value="Delete" class="btn btn-outline-dark" id="btn" >
                             </form>
 
                             <a href='/products/edit?id=${product.id}' type="button" class="btn btn-outline-dark">Edit</a>
@@ -61,6 +77,27 @@
     <#else>
     </#if>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Successfully deleted!
+            </div>
+            <div class="modal-footer" align="center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close" onclick="location.href = '/products';">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Optional JavaScript; choose one of the two! -->
 
