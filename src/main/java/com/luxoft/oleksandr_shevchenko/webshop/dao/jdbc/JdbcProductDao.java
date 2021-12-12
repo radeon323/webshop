@@ -16,7 +16,7 @@ public class JdbcProductDao implements ProductDao {
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
     private static final String DELETE_BY_ID = "DELETE FROM products WHERE id = ?;";
     private static final String UPDATE_BY_ID = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
-    private static final String FIND_BY_ID = "SELECT * FROM products WHERE id=?";
+    private static final String FIND_BY_ID = "SELECT * FROM products WHERE id = ?";
 
     private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
 
@@ -44,13 +44,16 @@ public class JdbcProductDao implements ProductDao {
 
 
     @Override
-    public void add(Product product) throws SQLException {
+    public void add(Product product) {
         try (Connection connection = connect();) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
             preparedStatement.setTimestamp(3, product.getCreationDate());
             preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

@@ -1,7 +1,11 @@
 package com.luxoft.oleksandr_shevchenko.webshop.service;
 
+import org.apache.commons.codec.binary.Hex;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class SecurityService {
@@ -19,6 +23,16 @@ public class SecurityService {
             }
         }
         return false;
+    }
+
+
+    public static String md5(String text) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        String txt = text + text;
+        System.out.println(txt);
+        byte[] bytes = messageDigest.digest(txt.getBytes());
+        System.out.println(Hex.encodeHexString(bytes));
+        return Hex.encodeHexString(bytes);
     }
 
 
