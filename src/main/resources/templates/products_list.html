@@ -30,21 +30,48 @@
 </br>
 <h1 align="center">Products List</h1>
 </br>
-<div class="container">
 
-    <table class="table table-striped">
+<div class="container">
+    <div class="row">
+
+<div class="d-flex flex-row-reverse justify-content-between align-items-center">
+    <div class="p-2">
+        <#if login == "false">
+        <a href="/login" class="btn btn-outline-dark">Login</a>
+        <#else>
+        <a href="/logout" class="btn btn-outline-dark">Logout</a>
+        </#if>
+    </div>
+    <div class="p-2 " >
+        <#if login == "false">
+        <strong>You are not logged yet!</strong>
+        <#else>
+        <strong>Logged as: ${email}</strong>
+        </#if>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+<div class="container ">
+
+    <table class="table table-striped align-middle ">
         <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Creation Date</th>
-            <th scope="col">Options</th>
+            <th scope="col ">Options</th>
         </tr>
         </thead>
         <tbody>
         <#list products as product>
-                    <tr>
+                    <tr >
                         <th scope="row">${product.id}</th>
                         <td>${product.name}</td>
                         <td>${product.price?string["0.00"]}</td>

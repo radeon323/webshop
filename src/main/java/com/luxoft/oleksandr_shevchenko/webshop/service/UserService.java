@@ -2,8 +2,8 @@ package com.luxoft.oleksandr_shevchenko.webshop.service;
 
 import com.luxoft.oleksandr_shevchenko.webshop.dao.UserDao;
 import com.luxoft.oleksandr_shevchenko.webshop.entity.User;
-import java.sql.SQLException;
 
+import java.sql.SQLException;
 
 public class UserService {
     private UserDao userDao;

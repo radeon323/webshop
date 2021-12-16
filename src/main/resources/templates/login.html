@@ -34,10 +34,17 @@
                 <input required name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter password">
             </div>
         </div>
-        <div class="container" align="center">
+        <div class="container" align="center" style="width: 40%">
             </br></br>
-            <button class="btn btn-outline-dark" type="submit" class="btn btn-primary">Submit</button>
+                <div class="row justify-content-center">
+                    <div class="col-md-auto col-lg-3">
+                        <button class="btn btn-outline-dark" type="submit" style="width: 100px">Login</button>
+                    </div>
 
+                    <div class="col-md-auto col-lg-3">
+                        <a href='/register' type="button" class="btn btn-outline-dark" style="width: 100px">Register</a>
+                    </div>
+                </div>
         </div>
 
         <#if errorMsg??>

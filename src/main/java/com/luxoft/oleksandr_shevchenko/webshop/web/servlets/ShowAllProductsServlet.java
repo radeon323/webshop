@@ -3,49 +3,59 @@ package com.luxoft.oleksandr_shevchenko.webshop.web.servlets;
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import com.luxoft.oleksandr_shevchenko.webshop.service.ProductService;
 import com.luxoft.oleksandr_shevchenko.webshop.service.SecurityService;
+import com.luxoft.oleksandr_shevchenko.webshop.service.UserService;
 import com.luxoft.oleksandr_shevchenko.webshop.web.templater.PageGenerator;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 
-
 public class ShowAllProductsServlet extends HttpServlet{
     private final ProductService productService;
+    private final SecurityService securityService;
     private List<String> userTokens;
 
-    public ShowAllProductsServlet(ProductService productService, List<String> userTokens) {
+    public ShowAllProductsServlet(ProductService productService, SecurityService securityService, List<String> userTokens) {
         this.productService = productService;
+        this.securityService = securityService;
         this.userTokens = userTokens;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        if(SecurityService.isAuth(req, userTokens)) {
             List<Product> products = productService.findAll();
             PageGenerator instance = PageGenerator.instance();
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("products", products);
+
+            parameters.put("login", Boolean.toString(securityService.isAuth(req)));
+
+            HttpSession session = req.getSession();
+            String email = (String) session.getAttribute("email");
+            System.out.println(email);
+            parameters.put("email", email);
+
             String page = instance.getPage("products_list.html", parameters);
             resp.getWriter().write(page);
-        } else {
-            resp.sendRedirect("/login");
-        }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(SecurityService.isAuth(req, userTokens)) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
             List<Product> products = productService.findAll();
             PageGenerator instance = PageGenerator.instance();
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("products", products);
+
+            parameters.put("login", Boolean.toString(securityService.isAuth(req)));
+
+            HttpSession session = req.getSession();
+            String email = (String) session.getAttribute("email");
+            System.out.println(email);
+            parameters.put("email", email);
 
             try {
                 int id = Integer.parseInt(req.getParameter("id"));
@@ -61,16 +71,9 @@ public class ShowAllProductsServlet extends HttpServlet{
                 String page = instance.getPage("products_list.html", parameters);
                 resp.getWriter().write(page);
 
-                //Thread.sleep(1000);
-//            resp.sendRedirect("/products");
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            resp.sendRedirect("/login");
-        }
     }
 
 }

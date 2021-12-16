@@ -5,10 +5,7 @@ import com.luxoft.oleksandr_shevchenko.webshop.service.SecurityService;
 import com.luxoft.oleksandr_shevchenko.webshop.service.UserService;
 import com.luxoft.oleksandr_shevchenko.webshop.web.templater.PageGenerator;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -53,6 +50,10 @@ private List<String> userTokens;
                 System.out.println("User Token :" + userToken);
 
                 userTokens.add(userToken);
+
+                HttpSession session = req.getSession();
+                session.setAttribute("email", email);
+                session.setMaxInactiveInterval(-1);
                 Cookie cookie = new Cookie("user-token", userToken);
 
                 resp.addCookie(cookie);
@@ -67,7 +68,7 @@ private List<String> userTokens;
             }
         } else {
             PageGenerator instance = PageGenerator.instance();
-            String errorMsg = "Such user does not exist. Please enter correct email or <a href='/register'>register</a>.";
+            String errorMsg = "User not found. Please enter correct email or <a href='/register'>register</a>.";
             Map<String, Object> parameters = Map.of("errorMsg", errorMsg);
             String pageError = instance.getPage("login.html", parameters);
             resp.getWriter().write(pageError);

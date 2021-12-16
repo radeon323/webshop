@@ -115,7 +115,7 @@ public static boolean isUserExist(String email) {
 //            preparedStatement.setInt(7, 100);
 //            preparedStatement.executeUpdate();
 //        }
-        edit();
+        clearTable("users");
 
 
    }

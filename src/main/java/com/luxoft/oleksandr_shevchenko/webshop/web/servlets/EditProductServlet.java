@@ -2,10 +2,7 @@ package com.luxoft.oleksandr_shevchenko.webshop.web.servlets;
 
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import com.luxoft.oleksandr_shevchenko.webshop.service.ProductService;
-import com.luxoft.oleksandr_shevchenko.webshop.service.SecurityService;
 import com.luxoft.oleksandr_shevchenko.webshop.web.templater.PageGenerator;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +22,6 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        if(SecurityService.isAuth(req, userTokens)) {
             int id = Integer.parseInt(req.getParameter("id"));
             Product product = productService.prFindById(id);
             HashMap<String, Object> parameters = new HashMap<>();
@@ -35,17 +30,12 @@ public class EditProductServlet extends HttpServlet {
             PageGenerator instance = PageGenerator.instance();
             String page = instance.getPage("edit_product.html", parameters);
             resp.getWriter().write(page);
-        } else {
-            resp.sendRedirect("/login");
-        }
-
     }
 
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(SecurityService.isAuth(req, userTokens)) {
             PageGenerator instance = PageGenerator.instance();
             try {
                 int id = Integer.parseInt(req.getParameter("id"));
@@ -74,10 +64,6 @@ public class EditProductServlet extends HttpServlet {
                 String errorMsg = "Please fill up all fields";
                 resp.getWriter().println(errorMsg);
             }
-        } else {
-            resp.sendRedirect("/login");
-        }
-
     }
 
     private Product getProductFromRequest(HttpServletRequest req){

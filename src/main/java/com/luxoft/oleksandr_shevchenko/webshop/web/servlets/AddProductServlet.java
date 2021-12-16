@@ -2,7 +2,6 @@ package com.luxoft.oleksandr_shevchenko.webshop.web.servlets;
 
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import com.luxoft.oleksandr_shevchenko.webshop.service.ProductService;
-import com.luxoft.oleksandr_shevchenko.webshop.service.SecurityService;
 import com.luxoft.oleksandr_shevchenko.webshop.web.templater.PageGenerator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +15,8 @@ import java.util.Map;
 
 
 public class AddProductServlet extends HttpServlet {
-    private ProductService productService;
-    private List<String> userTokens;
+    private final ProductService productService;
+    private final List<String> userTokens;
 
     public AddProductServlet(ProductService productService, List<String> userTokens) {
         this.productService = productService;
@@ -26,18 +25,13 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(SecurityService.isAuth(req, userTokens)) {
             PageGenerator instance = PageGenerator.instance();
             String page = instance.getPage("add_product.html");
             resp.getWriter().println(page);
-        } else {
-            resp.sendRedirect("/login");
-        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(SecurityService.isAuth(req, userTokens)) {
             PageGenerator instance = PageGenerator.instance();
             try {
                 String name = req.getParameter("name");
@@ -66,9 +60,6 @@ public class AddProductServlet extends HttpServlet {
                 String pageError = instance.getPage("add_product.html", parameters);
                 resp.getWriter().write(pageError);
             }
-        } else {
-            resp.sendRedirect("/login");
-        }
     }
 
     private Product getProductFromRequest(HttpServletRequest req){

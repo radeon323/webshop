@@ -1,17 +1,14 @@
 package com.luxoft.oleksandr_shevchenko.webshop.web.servlets;
 
-import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import com.luxoft.oleksandr_shevchenko.webshop.entity.User;
 import com.luxoft.oleksandr_shevchenko.webshop.service.SecurityService;
 import com.luxoft.oleksandr_shevchenko.webshop.service.UserService;
 import com.luxoft.oleksandr_shevchenko.webshop.web.templater.PageGenerator;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 

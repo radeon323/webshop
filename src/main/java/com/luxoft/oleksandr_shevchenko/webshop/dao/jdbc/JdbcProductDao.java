@@ -4,6 +4,7 @@ import com.luxoft.oleksandr_shevchenko.webshop.dao.ProductDao;
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class JdbcProductDao implements ProductDao {
@@ -30,7 +31,7 @@ public class JdbcProductDao implements ProductDao {
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = preparedStatement.executeQuery();) {
 
-            List<Product> products = new ArrayList<>();
+            List<Product> products = Collections.synchronizedList(new ArrayList<>());
             while(resultSet.next()) {
                 Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
                 products.add(product);
