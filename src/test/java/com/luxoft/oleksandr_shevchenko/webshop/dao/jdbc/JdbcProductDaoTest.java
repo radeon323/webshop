@@ -2,10 +2,11 @@ package com.luxoft.oleksandr_shevchenko.webshop.dao.jdbc;
 
 import com.luxoft.oleksandr_shevchenko.webshop.entity.Product;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
+import static org.mockito.Mockito.when;
 
 class JdbcProductDaoTest {
 
@@ -25,10 +26,18 @@ class JdbcProductDaoTest {
 
     @Test
     public void testFindById() {
-        JdbcProductDao jdbcProductDao = new JdbcProductDao();
-        Product product = jdbcProductDao.prFindById(26);
-        assertEquals(123, product.getPrice());
-        assertEquals("www", product.getName());
+        JdbcProductDao jdbcProductDaoMock = Mockito.mock(JdbcProductDao.class);
+
+        Product product = Product.builder().build();
+        product.setId(23);
+        product.setName("IPhone");
+        product.setPrice(100);
+
+        when(jdbcProductDaoMock.prFindById(23)).thenReturn(product);
+
+        assertEquals(23, product.getId());
+        assertEquals(100, product.getPrice());
+        assertEquals("IPhone", product.getName());
     }
 
 
